@@ -1,18 +1,17 @@
-import {useEffect} from 'react'
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { getPokemons } from '../features/pokemonSlice'
+import Pokemons from '../components/Pokemons/Pokemons'
+import SearchForm from '../components/SearchForm/SearchForm'
+
 
 const Home = () => {
-  const {pokemons}=useAppSelector(state=>state.pokemons)
-  const dispatch=useAppDispatch()
-  console.log(pokemons)
+ 
 
-  useEffect(() => {
-   dispatch(getPokemons())
-  }, [])
-  
   return (
-    <div>Home</div>
+    <div>
+      <h1>
+        <SearchForm/>
+        <Pokemons/>
+      </h1>
+    </div>
   )
 }
 
