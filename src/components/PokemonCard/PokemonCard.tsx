@@ -18,9 +18,7 @@ const PokemonCardName = styled.div`
 const PokemonCard = ({item}:any) => {
   const navigate=useNavigate()
   const {results}=useAppSelector(state=>state.pokemons)
-  const id=results.indexOf(item)+1
-
- 
+  const id=(results.indexOf(item)+1)
 
   return (
    

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BASE_URL, BASE_URL_PAGES } from "../constants/api";
 import { IPayloadProps, IPokemon, IState } from "../types/interfaces";
 
 
@@ -15,7 +16,7 @@ const initialState:IState={
 
 export const getPokemons = createAsyncThunk(
     "pokemons/getPokemons",async()=>{
-        return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=10")
+        return fetch(`${BASE_URL_PAGES}`)
                 .then(res=>{
                     return res.json() 
                 })
@@ -23,7 +24,7 @@ export const getPokemons = createAsyncThunk(
 )
 export const getSinglePokemon = createAsyncThunk(
     "pokemons/getSinglePokemon",async({id}:IPokemon)=>{
-        return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        return fetch(`${BASE_URL}/${id}`)
                 .then(res=>{
                     return res.json() 
                 })

@@ -16,10 +16,10 @@ export interface IPayloadProps{
     results: IPokemonCard[]
 }
 export interface IPokemon{
-    name:string
-    id:string
-    image:string //sprites.front_shiny
-    moves:string[] //moves.slice(1).map(item)=>item.move
+    name?:string
+    id?:string
+    image?:string //sprites.front_shiny
+    moves?:string[] //moves.slice(1).map(item)=>item.move
     
 }
 
