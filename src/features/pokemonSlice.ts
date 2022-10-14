@@ -56,7 +56,7 @@ const pokemonSlice=createSlice({
                     builder.addCase(getSinglePokemon.pending, (state: IState) => {
                         state.loading = true;
                       })
-                    builder.addCase(getSinglePokemon.fulfilled,(state:IState,action:PayloadAction<IPokemon>)=>{
+                    builder.addCase(getSinglePokemon.fulfilled,(state:IState,action:PayloadAction<any>)=>{
                         state.loading=false;
                         state.pokemon=action.payload
                     })

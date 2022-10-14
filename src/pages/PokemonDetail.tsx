@@ -7,17 +7,33 @@ import { IPokemon } from '../types/interfaces'
 const PokemonDetail = () => {
   const {id}=useParams()
   const dispatch=useAppDispatch()
-  const {pokemon}=useAppSelector(state=>state.pokemons)
-  console.log(pokemon);
+  const {pokemon,loading}=useAppSelector(state=>state.pokemons)
+  
+  const {name,sprites,moves}=pokemon
+  console.log(moves)
 
   useEffect(() => {
     dispatch(getSinglePokemon({id}))
    }, [])
 
+   if(loading){
+    <h1>LOADING...</h1>
+   }
   return (
-    <div>
-      l
-    </div>
+    <main>
+      <div>
+      <img src={sprites?.front_shiny} alt={name} /> 
+      </div>
+      <h1>{name}</h1>
+      <div>
+         {moves?.slice(0,5).map((item:any,index)=>{
+          return(
+            <p key={index}>{item.move.name}</p>
+          )
+         })}
+      </div>
+     
+    </main>
   )
 }
 
