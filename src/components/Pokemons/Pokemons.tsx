@@ -14,7 +14,7 @@ const PokemonsContainer = styled.div`
  flex-wrap: wrap;
  text-transform: capitalize;
  text-align: center;
- margin-top:4rem;
+ margin-top:3rem;
 `
 
 const ButtonContainer = styled.div`
@@ -32,7 +32,7 @@ font-size: 1.5rem;
 cursor: pointer;
 transition: var(--transition);
 &:hover{
-  background-color: #6666f0;
+  background-color: #6187f0;
   color:white;
 }
 `
@@ -40,8 +40,6 @@ transition: var(--transition);
 const Pokemons = () => {
     const {results,offset}=useAppSelector(state=>state.pokemons)
     const dispatch=useAppDispatch()
-    // console.log("next",next)
-    // console.log("offset",offset)
   
     useEffect(() => {
      dispatch(getPokemons({offset}))
