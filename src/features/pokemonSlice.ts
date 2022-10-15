@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BASE_URL, BASE_URL_PAGES } from "../constants/api";
+import { BASE_URL} from "../constants/api";
 import { IPayloadProps, IPokemon, IState } from "../types/interfaces";
 
 
@@ -7,16 +7,15 @@ const initialState:IState={
     loading:false,
     error:"",
     count: 1154,
-    next: "",
-    previous: "",
     results: [],
-    pokemon:<IPokemon>{}
+    pokemon:<IPokemon>{},
+    offset:0,
 }
 
 
 export const getPokemons = createAsyncThunk(
-    "pokemons/getPokemons",async()=>{
-        return fetch(`${BASE_URL_PAGES}`)
+    "pokemons/getPokemons",async(offset)=>{
+        return fetch(`${BASE_URL}?offset=${offset}&limit=10`)
                 .then(res=>{
                     return res.json() 
                 })
@@ -36,7 +35,23 @@ const pokemonSlice=createSlice({
     name:"pokemons",
     initialState,
     reducers:{
-
+        
+        next:(state,action : PayloadAction<any>)=>{
+            let pokemonLength=state.results.length
+            let limit=10;
+            let lastPage=Math.ceil(pokemonLength/limit)
+            if(action.payload<lastPage){
+                action.payload+=10
+            }
+            console.log("next")
+            console.log(action.payload)
+        },
+        previous:(state,action : PayloadAction<any>)=>{
+            if(action.payload>0){
+                action.payload-=10
+            }
+            console.log("prev")
+        }
     },
         extraReducers(builder:any){
                     builder.addCase(getPokemons.pending, (state: IState) => {
@@ -45,8 +60,6 @@ const pokemonSlice=createSlice({
                     builder.addCase(getPokemons.fulfilled,(state:IState,action:PayloadAction<IPayloadProps>)=>{
                         state.loading=false;
                         state.results=(action.payload.results) 
-                        state.next=action.payload.next
-                        state.previous=action.payload.previous
                     })
                     builder.addCase(getPokemons.rejected,(state:IState)=>{
                         state.loading=false;
@@ -68,6 +81,7 @@ const pokemonSlice=createSlice({
                 }
 })
 
+export const {next,previous}=pokemonSlice.actions
 export default pokemonSlice.reducer
 
 

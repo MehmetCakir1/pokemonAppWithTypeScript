@@ -2,6 +2,7 @@ export interface IState extends IPayloadProps{
     loading:boolean,
     error:string,
     pokemon:IPokemon
+    offset:number
 }
 
 export interface IPokemonCard{
@@ -11,8 +12,6 @@ export interface IPokemonCard{
 
 export interface IPayloadProps{
     count: number
-    next: string | null
-    previous: string | null
     results: IPokemonCard[]
 }
 export interface IPokemon{

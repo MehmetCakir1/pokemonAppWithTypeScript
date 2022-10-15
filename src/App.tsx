@@ -6,6 +6,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 const GlobalStyles = createGlobalStyle`
   :root {
     --transition: all 0.3s linear;
+    --radius:5px;
   }
   * {
     margin: 0;

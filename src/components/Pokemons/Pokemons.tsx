@@ -1,10 +1,9 @@
 import {useEffect} from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { getPokemons } from '../../features/pokemonSlice'
+import { getPokemons,next,previous } from '../../features/pokemonSlice'
 import { IPokemonCard } from '../../types/interfaces'
 import styled from "styled-components"
-
-    import PokemonCard from '../PokemonCard/PokemonCard'
+import PokemonCard from '../PokemonCard/PokemonCard'
 
 const PokemonsContainer = styled.div`
  display:grid;
@@ -15,7 +14,7 @@ const PokemonsContainer = styled.div`
 `
 
 const Pokemons = () => {
-    const {results,next,previous}=useAppSelector(state=>state.pokemons)
+    const {results}=useAppSelector(state=>state.pokemons)
     const dispatch=useAppDispatch()
     // console.log("next",next)
     // console.log("previous",previous)
@@ -33,6 +32,10 @@ const Pokemons = () => {
                     )                
             })
         } 
+        <div>
+        <button onClick={()=>dispatch(previous)}>Previous</button>
+        <button onClick={()=>dispatch(next(10))}>Next</button>
+        </div>
     </PokemonsContainer>
   )
 }
