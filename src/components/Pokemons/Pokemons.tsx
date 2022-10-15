@@ -6,25 +6,50 @@ import styled from "styled-components"
 import PokemonCard from '../PokemonCard/PokemonCard'
 
 const PokemonsContainer = styled.div`
- display:grid;
- grid-template-columns: repeat(auto-fill,minmax(400px,2fr));
+ /* display:grid;
+ grid-template-columns: repeat(auto-fill,minmax(400px,2fr)); */
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-wrap: wrap;
  text-transform: capitalize;
  text-align: center;
- margin-top:4rem
+ margin-top:4rem;
+`
+
+const ButtonContainer = styled.div`
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 2rem;
+ padding: 0.5rem 0;
+`
+const Button = styled.button`
+background-color: lightblue;
+padding: 0.3rem;
+width: 10rem;
+font-size: 1.5rem;
+cursor: pointer;
+transition: var(--transition);
+&:hover{
+  background-color: #6666f0;
+  color:white;
+}
 `
 
 const Pokemons = () => {
-    const {results}=useAppSelector(state=>state.pokemons)
+    const {results,offset}=useAppSelector(state=>state.pokemons)
     const dispatch=useAppDispatch()
     // console.log("next",next)
-    // console.log("previous",previous)
+    // console.log("offset",offset)
   
     useEffect(() => {
-     dispatch(getPokemons())
-    }, [])
+     dispatch(getPokemons({offset}))
+    }, [offset])
 
   return (
-    <PokemonsContainer>
+    <>
+        <PokemonsContainer>
         {
             results.map((item:IPokemonCard,index:number)=>{
                 return(
@@ -32,11 +57,13 @@ const Pokemons = () => {
                     )                
             })
         } 
-        <div>
-        <button onClick={()=>dispatch(previous)}>Previous</button>
-        <button onClick={()=>dispatch(next(10))}>Next</button>
-        </div>
     </PokemonsContainer>
+    <ButtonContainer>
+        <Button onClick={()=>dispatch(previous(offset))}>Previous</Button>
+        <Button onClick={()=>dispatch(next(offset))}>Next</Button>
+        </ButtonContainer>
+    </>
+
   )
 }
 

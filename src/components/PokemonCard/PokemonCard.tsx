@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import styled from "styled-components"
 import { useAppSelector } from '../../app/hooks'
-import { IPokemonCard } from '../../types/interfaces'
 
 const PokemonCardName = styled.div`
   border:2px solid gray;
-  padding:1rem;
+  padding:0.7rem;
   cursor: pointer;
   margin: 1rem;
   transition:var(--transition);
+  width: 380px;
   &:hover{
     background:gray;
     color:white;
@@ -17,8 +17,9 @@ const PokemonCardName = styled.div`
 
 const PokemonCard = ({item}:any) => {
   const navigate=useNavigate()
-  const {results}=useAppSelector(state=>state.pokemons)
-  const id=(results.indexOf(item)+1)
+  const {results,offset}=useAppSelector(state=>state.pokemons)
+  // console.log(results);
+  const id=(results.indexOf(item)+1+offset)
 
   return (
    

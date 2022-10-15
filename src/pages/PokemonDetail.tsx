@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getSinglePokemon } from "../features/pokemonSlice";
+import { addToFavourites, getSinglePokemon } from "../features/pokemonSlice";
 import styled from "styled-components";
+import { FaStar,FaRegStar } from "react-icons/fa";
 
 const SinglePokemonContainer = styled.div`
   max-width: 30rem;
   margin: 5rem auto;
 `;
 const ImgContainer = styled.div`
-  width: 13rem;
+  width: 16rem;
   margin: auto;
 `;
 const PokemonName = styled.h1`
@@ -47,16 +48,28 @@ const BackButton = styled.button`
     background-color: #02475e;
     color: white;
   }
+  `
+
+const FavButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+`;
+const ButtonContainer = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
 `;
 
 const PokemonDetail = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { pokemon, loading } = useAppSelector((state) => state.pokemons);
+  const { pokemon, loading,favourites } = useAppSelector((state) => state.pokemons);
   const navigate=useNavigate()
 
   const { name, sprites, moves } = pokemon;
-  console.log(moves);
+// console.log("fav",favourites)
 
   useEffect(() => {
     dispatch(getSinglePokemon({ id }));
@@ -67,11 +80,19 @@ const PokemonDetail = () => {
   }
   return (
     <SinglePokemonContainer>
-      <BackButton
+      <ButtonContainer>
+              <BackButton
       onClick={()=>navigate(-1)}
       >Go Back</BackButton>
+      <FavButton 
+      onClick={()=>dispatch((addToFavourites(id)))}
+      >
+        <FaRegStar/>
+      </FavButton>
+      </ButtonContainer>
+
       <ImgContainer>
-        <img src={sprites?.front_shiny} alt={name} />
+        <img src={sprites?.other.home.front_default} alt={name} />
       </ImgContainer>
       <PokemonName>{name}</PokemonName>
       <PokemonMoves>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL} from "../constants/api";
 import { IPayloadProps, IPokemon, IState } from "../types/interfaces";
 
@@ -10,11 +10,16 @@ const initialState:IState={
     results: [],
     pokemon:<IPokemon>{},
     offset:0,
+    favourites:[]
 }
-
+if (localStorage.getItem("favourites")) {
+    initialState.favourites = [...JSON.parse(localStorage.getItem("favourites")  || "")];
+  } else {  
+    initialState.favourites = [];
+  }
 
 export const getPokemons = createAsyncThunk(
-    "pokemons/getPokemons",async(offset)=>{
+    "pokemons/getPokemons",async({offset}:any)=>{
         return fetch(`${BASE_URL}?offset=${offset}&limit=10`)
                 .then(res=>{
                     return res.json() 
@@ -37,21 +42,28 @@ const pokemonSlice=createSlice({
     reducers:{
         
         next:(state,action : PayloadAction<any>)=>{
-            let pokemonLength=state.results.length
-            let limit=10;
-            let lastPage=Math.ceil(pokemonLength/limit)
-            if(action.payload<lastPage){
-                action.payload+=10
+            if(state.offset<state.count){
+                state.offset+=10
+              
             }
-            console.log("next")
-            console.log(action.payload)
+            console.log("next",state.offset)
         },
         previous:(state,action : PayloadAction<any>)=>{
-            if(action.payload>0){
-                action.payload-=10
+            if(state.offset>0){
+                state.offset-=10
             }
-            console.log("prev")
-        }
+            console.log("prev",state.offset)
+        },
+        addToFavourites:(state,action : PayloadAction<any>)=>{
+              if(state.favourites.some((item:any)=>item.id==action.payload)){
+                state.favourites=state.favourites.filter((item:any)=>item.id!=action.payload)
+              }else{
+                state.favourites.push(state.pokemon)
+              }
+            //   console.log("fav",state.favourites)
+              localStorage.setItem("favourites",JSON.stringify(state.favourites))
+          }
+
     },
         extraReducers(builder:any){
                     builder.addCase(getPokemons.pending, (state: IState) => {
@@ -81,7 +93,7 @@ const pokemonSlice=createSlice({
                 }
 })
 
-export const {next,previous}=pokemonSlice.actions
+export const {next,previous,addToFavourites}=pokemonSlice.actions
 export default pokemonSlice.reducer
 
 
