@@ -14,7 +14,7 @@ const PokemonsContainer = styled.div`
  flex-wrap: wrap;
  text-transform: capitalize;
  text-align: center;
- margin-top:3rem;
+ margin-top:2rem;
 `
 
 const ButtonContainer = styled.div`
@@ -38,12 +38,16 @@ transition: var(--transition);
 `
 
 const Pokemons = () => {
-    const {results,offset}=useAppSelector(state=>state.pokemons)
+    const {results,offset,loading}=useAppSelector(state=>state.pokemons)
     const dispatch=useAppDispatch()
   
     useEffect(() => {
      dispatch(getPokemons({offset}))
     }, [offset])
+
+    if(loading){
+      <h1>LOADING...</h1>
+    }
 
   return (
     <>
