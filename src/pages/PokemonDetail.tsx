@@ -61,6 +61,13 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 `;
+const Star = styled.button`
+border: none;
+background-color: transparent;
+color:orangered;
+  cursor: pointer;
+  font-size: 1.5rem;
+`;
 
 const PokemonDetail = () => {
   const { id } = useParams();
@@ -70,6 +77,7 @@ const PokemonDetail = () => {
 
   const { name, sprites, moves } = pokemon;
 // console.log("fav",favourites)
+console.log(favourites.some((item:any)=>item.id==id))
 
   useEffect(() => {
     dispatch(getSinglePokemon({ id }));
@@ -87,7 +95,15 @@ const PokemonDetail = () => {
       <FavButton 
       onClick={()=>dispatch((addToFavourites(id)))}
       >
-        <FaRegStar/>
+        {
+          favourites.some((item:any)=>item.id==id) ? (
+            <Star> <FaStar/></Star>
+           
+          ):(
+            
+            <FaRegStar/>
+          )
+        }
       </FavButton>
       </ButtonContainer>
 
