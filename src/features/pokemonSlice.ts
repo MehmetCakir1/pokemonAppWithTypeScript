@@ -60,10 +60,8 @@ const pokemonSlice=createSlice({
               }else{
                 state.favourites.push(state.pokemon)
               }
-            //   console.log("fav",state.favourites)
               localStorage.setItem("favourites",JSON.stringify(state.favourites))
           }
-
     },
         extraReducers(builder:any){
                     builder.addCase(getPokemons.pending, (state: IState) => {

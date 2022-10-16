@@ -61,7 +61,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 `;
-const Star = styled.button`
+const Star = styled.span`
 border: none;
 background-color: transparent;
 color:orangered;
@@ -76,8 +76,6 @@ const PokemonDetail = () => {
   const navigate=useNavigate()
 
   const { name, sprites, moves } = pokemon;
-// console.log("fav",favourites)
-console.log(favourites.some((item:any)=>item.id==id))
 
   useEffect(() => {
     dispatch(getSinglePokemon({ id }));
