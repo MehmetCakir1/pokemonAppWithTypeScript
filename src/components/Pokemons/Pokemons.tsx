@@ -14,7 +14,7 @@ const PokemonsContainer = styled.div`
  flex-wrap: wrap;
  text-transform: capitalize;
  text-align: center;
- margin-top:2rem;
+ margin-top:1rem;
 `
 
 const ButtonContainer = styled.div`
