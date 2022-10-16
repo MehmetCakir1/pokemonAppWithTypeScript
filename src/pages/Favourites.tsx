@@ -56,41 +56,53 @@ const BackButton = styled.button`
   @media (min-width: 600px) {
     left: 5rem;
   }
-`;
+  `
+const NoFavHeader = styled.h1`
+margin-top: 2rem;
+text-align: center;
+`
 
 const Favourites = () => {
   const navigate = useNavigate();
   const dispatch=useAppDispatch()
   const { favourites, loading } = useAppSelector((state) => state.pokemons);
-  // console.log(favourites);
+  console.log(favourites);
 
   if (loading) {
     <h1>LOADING..</h1>;
   }
+
   return (
     <FavContainer>
       <BackButton onClick={() => navigate("/")}>
         <TiArrowBack />
       </BackButton>
-      {favourites.map((item: any) => {
-        const {id,sprites,name}=item;
-        return (
-          <FavCardContainer key={id}>
-            <FavsButton
-            onClick={()=>dispatch((addToFavourites(id)))}
-            >
-              <FaStar/>
-            </FavsButton>
-            <FavCardContainer>
-              <FavImg
-                src={sprites?.other.home.front_default}
-                alt={name}
-              />
-            </FavCardContainer>
-            <FavHeader>{name}</FavHeader>
-          </FavCardContainer>
-        );
-      })}
+      {
+        favourites.length==0 ? (
+          <NoFavHeader>No Favourite Item To Show</NoFavHeader>
+        ):(
+          favourites.map((item: any) => {
+            const {id,sprites,name}=item;
+            return (
+              <FavCardContainer key={id}>
+                <FavsButton
+                onClick={()=>dispatch((addToFavourites(id)))}
+                >
+                  <FaStar/>
+                </FavsButton>
+                <FavCardContainer>
+                  <FavImg
+                    src={sprites?.other.home.front_default}
+                    alt={name}
+                  />
+                </FavCardContainer>
+                <FavHeader>{name}</FavHeader>
+              </FavCardContainer>
+            );
+          })
+        )
+      }
+
     </FavContainer>
   );
 };
