@@ -52,7 +52,6 @@ const pokemonSlice=createSlice({
             if(state.offset>0){
                 state.offset-=10
             }
-            console.log("prev",state.offset)
         },
         addToFavourites:(state,action : PayloadAction<any>)=>{
               if(state.favourites.some((item:any)=>item.id==action.payload)){

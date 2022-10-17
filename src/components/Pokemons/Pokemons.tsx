@@ -34,11 +34,12 @@ transition: var(--transition);
 &:hover{
   background-color: #6187f0;
   color:white;
+
 }
 `
 
 const Pokemons = () => {
-    const {results,offset,loading}=useAppSelector(state=>state.pokemons)
+    const {results,offset,loading,count}=useAppSelector(state=>state.pokemons)
     const dispatch=useAppDispatch()
   
     useEffect(() => {
@@ -61,8 +62,8 @@ const Pokemons = () => {
         } 
     </PokemonsContainer>
     <ButtonContainer>
-        <Button onClick={()=>dispatch(previous(offset))}>Previous</Button>
-        <Button onClick={()=>dispatch(next(offset))}>Next</Button>
+          <Button onClick={()=>dispatch(previous(offset))} disabled={!Boolean(offset)}>Previous</Button>
+        <Button onClick={()=>dispatch(next(offset))} disabled={Boolean(offset==(count-count%10))} >Next</Button>
         </ButtonContainer>
     </>
 
